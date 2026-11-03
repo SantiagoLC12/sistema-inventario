@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Producto del inventario</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f1f5f9; color: #172033; margin: 0; padding: 32px 16px; }
+    main { max-width: 460px; margin: 32px auto; padding: 28px; background: white; border-radius: 16px; }
+    h1 { font-size: 24px; margin-top: 0; }
+    button { background: #2563eb; color: white; border: 0; border-radius: 8px; padding: 12px 18px; font: inherit; cursor: pointer; }
+    button:focus-visible { outline: 3px solid #172033; outline-offset: 3px; }
+    dt { color: #475569; margin-top: 18px; }
+    dd { margin: 5px 0 0; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Producto del inventario</h1>
+    <p>Presiona el botón para consultar sus datos.</p>
+    <button id="mostrar" type="button">Mostrar producto</button>
+    <div id="informacion" aria-live="polite"></div>
+  </main>
+
+  <script>
+    // Representa un producto con los cuatro datos solicitados.
+    class Producto {
+      constructor(codigo, nombre, precio, existencia) {
+        this.codigo = codigo;
+        this.nombre = nombre;
+        this.precio = precio;
+        this.existencia = existencia;
+      }
+
+      // Muestra la información del producto en la página.
+      mostrarInformacion() {
+        const contenedor = document.getElementById('informacion');
+        const lista = document.createElement('dl');
+        const datos = [
+          ['Código', this.codigo],
+          ['Nombre', this.nombre],
+          ['Precio', `$${this.precio.toFixed(2)} MXN`],
+          ['Existencia en inventario', this.existencia]
+        ];
+
+        for (const [etiqueta, valor] of datos) {
+          const termino = document.createElement('dt');
+          const descripcion = document.createElement('dd');
+          termino.textContent = etiqueta;
+          descripcion.textContent = String(valor);
+          lista.append(termino, descripcion);
+        }
+        contenedor.replaceChildren(lista);
+      }
+    }
+
+    const producto = new Producto('P001', 'Teclado', 350.00, 10);
+    document.getElementById('mostrar').addEventListener('click', () => {
+      producto.mostrarInformacion();
+    });
+  </script>
+</body>
+</html>
